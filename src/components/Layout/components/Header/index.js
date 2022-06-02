@@ -25,6 +25,19 @@ const MENU_ITEMS = [
   {
     icon: <FontAwesomeIcon icon={faEarthAsia} />,
     title: "English",
+    children:{
+      title:'Language',
+      data:[
+        {
+          code:'en',
+          title:'English'
+        },
+        {
+          code:'vi',
+          title:'Tieng Viet'
+        }
+      ]
+    }
   },
   {
     icon: <FontAwesomeIcon icon={faCircleQuestion} />,
@@ -40,7 +53,7 @@ function Header() {
   const [searchResult, setSearchResult] = useState([]);
   useEffect(() => {
     setTimeout(() => {
-      setSearchResult([1]);
+      setSearchResult([]);
     }, 0);
   }, []);
   return (
