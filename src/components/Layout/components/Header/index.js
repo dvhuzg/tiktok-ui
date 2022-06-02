@@ -13,6 +13,7 @@ import "tippy.js/dist/tippy.css";
 
 import { Wrapper as PopperWrapper } from "../../../Popper";
 import AccountItem from "../../../AccountItem";
+import Button from "../../../Button";
 
 const cx = classNames.bind(styles);
 
@@ -59,7 +60,10 @@ function Header() {
             </button>
           </div>
         </Tippy>
-        <div className={cx("actions")}></div>
+        <div className={cx("actions")}>
+          <Button btn_text>Upload</Button>
+          <Button primary>Login</Button>
+        </div>
       </div>
     </header>
   );
