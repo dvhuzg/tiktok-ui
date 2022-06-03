@@ -6,38 +6,45 @@ import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import {
   faCircleQuestion,
   faCircleXmark,
+  faCoins,
   faEarthAsia,
   faEllipsisVertical,
+  faGear,
   faKeyboard,
   faMagnifyingGlass,
-  faSpinner,
+  faSignOut,
+  faSpinner, faUser
 } from "@fortawesome/free-solid-svg-icons";
-import Tippy from "@tippyjs/react/headless";
+import Tippy from "@tippyjs/react";
+import HeadlessTippy from "@tippyjs/react/headless";
 import "tippy.js/dist/tippy.css";
-
 import { Wrapper as PopperWrapper } from "../../../Popper";
 import AccountItem from "../../../AccountItem";
 import Button from "../../../Button";
 import Menu from "../../../Popper/Menu";
+import { MessageIcon, UploadIcon } from "../../../Icons";
+import Image from "../../../Image";
 const cx = classNames.bind(styles);
+
+const currentUser = true;
 
 const MENU_ITEMS = [
   {
     icon: <FontAwesomeIcon icon={faEarthAsia} />,
     title: "English",
-    children:{
-      title:'Language',
-      data:[
+    children: {
+      title: "Language",
+      data: [
         {
-          code:'en',
-          title:'English'
+          code: "en",
+          title: "English",
         },
         {
-          code:'vi',
-          title:'Tieng Viet'
-        }
-      ]
-    }
+          code: "vi",
+          title: "Tieng Viet",
+        },
+      ],
+    },
   },
   {
     icon: <FontAwesomeIcon icon={faCircleQuestion} />,
@@ -49,6 +56,34 @@ const MENU_ITEMS = [
     title: "Keyboard shortcut",
   },
 ];
+
+const userMenu = [
+  {
+    icon: <FontAwesomeIcon icon={faUser} />,
+    title: "Profile",
+    to: "/@dvhuzg",
+  },
+  {
+    icon: <FontAwesomeIcon icon={faCoins} />,
+    title: "Get coins",
+    to: "/coins",
+  },
+  {
+    icon: <FontAwesomeIcon icon={faGear} />,
+    title: "Settings",
+    to: "/setting",
+  },
+  ...MENU_ITEMS,
+  
+  {
+    icon: <FontAwesomeIcon icon={faSignOut} />,
+    title: "Log out",
+    to: "/logout",
+    separate: true
+  }
+];
+//Function
+
 function Header() {
   const [searchResult, setSearchResult] = useState([]);
   useEffect(() => {
@@ -62,7 +97,7 @@ function Header() {
         <div className={cx("logo")}>
           <img src={images.logo} alt="Tiktok" />
         </div>
-        <Tippy
+        <HeadlessTippy
           interactive
           visible={searchResult.length > 0}
           render={(attrs) => (
@@ -91,16 +126,39 @@ function Header() {
               <FontAwesomeIcon icon={faMagnifyingGlass} />
             </button>
           </div>
-        </Tippy>
+        </HeadlessTippy>
         <div className={cx("actions")}>
-          <Button btn_text>Upload</Button>
-          <Button primary>
-            Login
-          </Button>
-          <Menu items={MENU_ITEMS}>
-            <button className={cx("more-btn")}>
-              <FontAwesomeIcon icon={faEllipsisVertical} />
-            </button>
+          {currentUser ? (
+            <>
+              <Tippy content="Upload video" placement="bottom">
+                <button className={cx("action-btn")}>
+                  <UploadIcon />
+                </button>
+              </Tippy>
+              <Tippy content="Message" placement="bottom">
+                <button className={cx("action-btn")}>
+                  <MessageIcon/>
+                </button>
+              </Tippy>
+            </>
+          ) : (
+            <>
+              <Button btn_text>Upload</Button>
+              <Button primary>Login</Button>
+            </>
+          )}
+          <Menu items={currentUser ? userMenu : MENU_ITEMS}>
+            {currentUser ? (
+              <Image
+              src={images.avt}
+                className={cx("user-avatar")}
+                alt="Nguyen Van A"
+              />
+            ) : (
+              <button className={cx("more-btn")}>
+                <FontAwesomeIcon icon={faEllipsisVertical} />
+              </button>
+            )}
           </Menu>
         </div>
       </div>
